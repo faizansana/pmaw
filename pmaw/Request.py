@@ -90,8 +90,11 @@ class Request:
         except AttributeError:
             sigs = ('TERM', 'INT')
 
-        for sig in sigs:
-            signal.signal(getattr(signal, 'SIG'+sig), self._exit)
+        try:
+            for sig in sigs:
+                signal.signal(getattr(signal, 'SIG'+sig), self._exit)
+        except ValueError:
+            pass
 
     def _enrich_data(self):
         # create batch of fullnames up to 100
